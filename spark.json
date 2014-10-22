@@ -3,5 +3,5 @@
     "author": "Geert Wille <geert@appstrakt.com>",
     "license": "GNU",
     "version": "0.0.1",
-    "description": "A library to use the HIH61XX"
+    "description": "A library for using the HIH61XX in your project"
 }
