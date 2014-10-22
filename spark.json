@@ -1,0 +1,7 @@
+{
+    "name": "HIH61XX",
+    "author": "Geert Wille <geert@appstrakt.com>",
+    "license": "GNU",
+    "version": "0.0.1",
+    "description": "A library to use the HIH61XX"
+}
