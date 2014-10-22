@@ -3,7 +3,10 @@ Spark Core HIH61XX Temperature/Humidity Sensor Library
 By: Geert wille - Appstrakt
 Licence: GPL v2
 */
-#ifndef HONEYWELL_HIH61XX_H# define HONEYWELL_HIH61XX_H
+#ifndef HONEYWELL_HIH61XX_H
+#define HONEYWELL_HIH61XX_H
+
+#include "application.h"
 
 class HIH61XX {
     public:
