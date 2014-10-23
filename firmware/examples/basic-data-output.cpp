@@ -1,6 +1,6 @@
 #include "HIH61XX/HIH61XX.h"
 
-//  Create an HIH61XX with I2C address 0x27, powered by pin 8
+//  Create an HIH61XX with I2C address 0x27, powered by pin 3
 HIH61XX hih(0x27, D3);
 
 void setup()
