@@ -10,4 +10,4 @@ This library has been tested, but might still contain bugs, so please be careful
 
 About
 -----
-This project is based on https://code.google.com/p/arduino-hih61xx/ and is part of Tomas's work. I just made it compatible with the Spark Core
+This project is based on https://code.google.com/p/arduino-hih61xx/ and is part of Tomas's work.

@@ -8,6 +8,8 @@ Licence: GPL v2
 
 #include "application.h"
 
+#define HIH61XX_DEFAULT_ADDRESS     0x27
+
 class HIH61XX {
     public:
         enum Error {
@@ -25,8 +27,7 @@ class HIH61XX {
             FlagsMask = ~ErrorMask
         };
 
-        HIH61XX(uint8_t address, uint8_t powerPin = 255);
-        virtual~HIH61XX() {}
+        HIH61XX(uint8_t address = HIH61XX_DEFAULT_ADDRESS, uint8_t powerPin = 255);
 
         uint8_t address() const {
             return a;
@@ -77,7 +78,6 @@ class HIH61XX {
 
         //  use a stream to control the sensor
         uint8_t commandRequest(Stream & stream);
-
     protected:
         uint8_t setError(uint8_t error) {
             f = (f & ~ErrorMask) | error;
