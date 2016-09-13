@@ -18,6 +18,8 @@ class HIH61XX {
             CommunicationError = 2,
             NotRunningError = 3,
             CommandModeError = 4,
+            LoopTimeout = 5,
+            ShitValue = 6,
             ErrorMask = 15
         };
 
@@ -27,7 +29,7 @@ class HIH61XX {
             FlagsMask = ~ErrorMask
         };
 
-        HIH61XX(uint8_t address = HIH61XX_DEFAULT_ADDRESS, uint8_t powerPin = 255);
+        HIH61XX(uint8_t address = HIH61XX_DEFAULT_ADDRESS, TwoWire& MyWire = Wire, uint8_t powerPin = 255);
 
         uint8_t address() const {
             return a;
@@ -94,8 +96,8 @@ class HIH61XX {
             stream.println(data);
             return result;
         }
-
         uint8_t a;
+        TwoWire& w;
         uint8_t p;
         uint8_t f;
         uint16_t h;

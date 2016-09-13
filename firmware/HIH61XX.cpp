@@ -1,6 +1,6 @@
 #include "HIH61XX.h"
 
-HIH61XX::HIH61XX(uint8_t address, uint8_t powerPin): a(address), p(powerPin), f(0), h(0), t(0) {
+HIH61XX::HIH61XX(uint8_t address, TwoWire& MyWire, uint8_t powerPin): a(address), p(powerPin), w(MyWire), f(0), h(0), t(0) {
     if (p < 255) {
         digitalWrite(p, LOW);
         pinMode(p, OUTPUT);
@@ -29,40 +29,55 @@ uint8_t HIH61XX::update() {
     }
 
     uint8_t x, y, s;
+    int iter;
+    int available;
 
-    Wire.beginTransmission(a);
-    int azer = Wire.endTransmission();
+    w.beginTransmission(a);
+    int azer = w.endTransmission();
     if (azer == 0) {
-        while (true) {
+        for(iter = 0; iter<10000; iter++) {
             delay(10);
 
-            Wire.requestFrom(a, (uint8_t) 4);
-            if (Wire.available()) {
-                x = Wire.read();
-                y = Wire.read();
+            w.requestFrom(a, (uint8_t) 4);
+            w.write(byte(0));
+            delay(100);
+            available = w.available();
+            //Serial.println("available: " + (String)available);
+            if (available == 4) {
+                x = w.read();
+                //Serial.print("x: ");
+                //Serial.println(x, HEX);
+                y = w.read();
+                //Serial.print("y: ");
+                //Serial.println(y, HEX);
                 s = x >> 6;
+                //Serial.print("s: ");
+                //Serial.println(s, HEX);
 
                 switch (s) {
-                    case 0:
+                    default:
+                        if(s == 1){
+                            Serial.println("This Data may be stale");
+                        }
                         h = (((uint16_t)(x & 0x3f)) << 8) | y;
-                        x = Wire.read();
-                        y = Wire.read();
+                        x = w.read();
+                        y = w.read();
                         t = ((((uint16_t) x) << 8) | y) >> 2;
-                        Wire.endTransmission();
+                        w.endTransmission();
+                        //Serial.println(h, HEX);
+                        //Serial.println(t, HEX);
                         return setError(0);
 
-                    case 1:
-                        Wire.endTransmission();
-                        break;
-
                     case 2:
-                        Wire.endTransmission();
+                        w.endTransmission();
                         return setError(CommandModeError);
                 }
             } else {
                 return setError(CommunicationError);
             }
         }
+        //else
+        return setError(LoopTimeout);
     } else {
         Serial.print("...");
         Serial.println(azer);
